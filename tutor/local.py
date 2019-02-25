@@ -144,7 +144,7 @@ def init_mysql(root):
         click.echo(fmt.info("    waiting for mysql initialization"))
         logs = subprocess.check_output([
             "docker-compose", "-f", tutor_env.pathjoin(root, "local", "docker-compose.yml"),
-            "--project-name", "tutor_local", "logs", "mysql",
+            "logs", "mysql",
         ])
         if b"MySQL init process done. Ready for start up." in logs:
             click.echo(fmt.info("MySQL database initialized"))
@@ -252,7 +252,6 @@ def run_bash(root, service, command):
 def docker_compose(root, *command):
     return utils.docker_compose(
         "-f", tutor_env.pathjoin(root, "local", "docker-compose.yml"),
-        "--project-name", "tutor_local",
         *command
     )
 

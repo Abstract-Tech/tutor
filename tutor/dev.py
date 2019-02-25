@@ -96,7 +96,6 @@ def docker_compose_run(root, edx_platform_path, edx_platform_settings, *command)
 def docker_compose(root, *command):
     return utils.docker_compose(
         "-f", tutor_env.pathjoin(root, "local", "docker-compose.yml"),
-        "--project-name", "tutor_dev",
         *command
     )
 
