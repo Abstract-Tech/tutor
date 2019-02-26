@@ -1,4 +1,5 @@
 .*.swp
+*.pyc
 !.gitignore
 TODO
 
@@ -6,3 +7,4 @@ TODO
 /dist/
 /releases/
 /tutor_openedx.egg-info/
+/tutor/__pycache__/
