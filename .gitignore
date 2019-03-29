@@ -11,3 +11,4 @@ TODO
 .direnv
 .envrc
 __pycache__
+node_modules
