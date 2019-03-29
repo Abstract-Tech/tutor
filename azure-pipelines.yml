@@ -18,7 +18,11 @@ steps:
   - script: python setup.py develop || python setup.py develop
     displayName: 'Install tutor'
 
-  - script: tutor config save --silent --set ACTIVATE_NOTES=true --set ACTIVATE_XQUEUE=true
+  - script: |
+      tutor config save --silent \
+        --set ACTIVATE_NOTES=true \
+        --set ACTIVATE_XQUEUE=true \
+        --set LMS_HOST=localhost
     displayName: 'Configure tutor'
 
   - script: tutor local pullimages
