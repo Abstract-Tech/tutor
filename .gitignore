@@ -8,3 +8,7 @@ __pycache__
 /dist/
 /releases/
 /tutor_openedx.egg-info/
+
+.direnv
+.envrc
+__pycache__
