@@ -33,5 +33,18 @@ steps:
   - script: curl -v http://localhost/
     displayName: 'Run curl command to confirm tutor is running'
 
+  - script: |
+      docker build e2e -t cypress:tutor
+    displayName: 'Build cypress e2e tests docker image'
+
+  - script: |
+      docker run -it --rm \
+        --name cypress \
+        --network host \
+        -e CYPRESS_baseUrl=http://localhost:80 \
+        cypress:tutor \
+        npx cypress run
+    displayName: 'Run cypress e2e tests'
+
   - script: echo "We made it to the bottom of the file! Time to celebrate. Go have a pint! (just kidding, keep at it! There's much more work to do)"
     displayName: 'Pat ourselves on the back'
