@@ -15,5 +15,23 @@ steps:
       versionSpec: '3.6'
       architecture: 'x64'
 
-  - script: ./tests/start_tutor.sh
+  - script: python setup.py develop || python setup.py develop
+    displayName: 'Install tutor'
+
+  - script: tutor config save --silent --set ACTIVATE_NOTES=true --set ACTIVATE_XQUEUE=true
+    displayName: 'Configure tutor'
+
+  - script: tutor local pullimages
+    displayName: 'Pull docker images'
+
+  - script: tutor local databases
+    displayName: 'Initialize databases'
+
+  - script: tutor local start -d
     displayName: 'Start edX server'
+
+  - script: curl -v http://localhost/
+    displayName: 'Run curl command to confirm tutor is running'
+
+  - script: echo "We made it to the bottom of the file! Time to celebrate. Go have a pint! (just kidding, keep at it! There's much more work to do)"
+    displayName: 'Pat ourselves on the back'
