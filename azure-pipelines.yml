@@ -34,6 +34,13 @@ steps:
     displayName: 'Run curl command to confirm tutor is running'
 
   - script: |
+      docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml \
+      --project-name tutor_local run --rm lms \
+        bash -e -c \
+          './manage.py lms --settings=tutor.production manage_user --superuser --staff cypress cypress@example.com '
+    displayName: 'Create admin user to be used in tests'
+
+  - script: |
       docker build tests/e2e -t cypress:tutor
     displayName: 'Build cypress e2e tests docker image'
 
