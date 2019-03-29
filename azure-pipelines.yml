@@ -35,10 +35,12 @@ steps:
 
   - script: |
       docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml \
-      --project-name tutor_local run --rm lms \
+      --project-name tutor_local \
+      -v $(pwd)/tests/fixtures/users.json:/openedx/edx-platform/users.json \
+      run --rm lms \
         bash -e -c \
-          './manage.py lms --settings=tutor.production manage_user --superuser --staff cypress cypress@example.com '
-    displayName: 'Create admin user to be used in tests'
+          './manage.py lms --settings=tutor.production loaddata users.json'
+    displayName: 'Create initial users to be used in tests'
 
   - script: |
       docker build tests/e2e -t cypress:tutor
