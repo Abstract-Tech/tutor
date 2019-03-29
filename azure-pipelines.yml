@@ -38,7 +38,7 @@ steps:
     displayName: 'Build cypress e2e tests docker image'
 
   - script: |
-      docker run -it --rm \
+      docker run --rm \
         --name cypress \
         --network host \
         -e CYPRESS_baseUrl=http://localhost:80 \
