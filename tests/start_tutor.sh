@@ -3,7 +3,7 @@ TUTOR_DIR="$( cd "$( dirname "$0" )/.." && pwd )"
 
 set -ex
 
-cd $(TUTOR_DIR)
+cd ${TUTOR_DIR}
 python setup.py develop
 tutor config save --silent --set ACTIVATE_NOTES=true --set ACTIVATE_XQUEUE=true
 time tutor local pullimages
