@@ -36,8 +36,9 @@ steps:
   - script: |
       docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml \
       --project-name tutor_local \
+      run --rm \
       -v $(pwd)/tests/fixtures/users.json:/openedx/edx-platform/users.json \
-      run --rm lms \
+      lms \
         bash -e -c \
           './manage.py lms --settings=tutor.production loaddata users.json'
     displayName: 'Create initial users to be used in tests'
