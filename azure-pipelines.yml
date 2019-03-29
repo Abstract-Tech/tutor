@@ -34,7 +34,7 @@ steps:
     displayName: 'Run curl command to confirm tutor is running'
 
   - script: |
-      docker build e2e -t cypress:tutor
+      docker build tests/e2e -t cypress:tutor
     displayName: 'Build cypress e2e tests docker image'
 
   - script: |
