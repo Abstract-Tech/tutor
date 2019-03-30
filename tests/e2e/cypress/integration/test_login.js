@@ -10,5 +10,7 @@ describe('Login tests', () => {
     cy.get('.action').click();
     cy.contains('Discover New').click();
     cy.contains('We couldn\'t find any results');
+    cy.get('.toggle-user-dropdown > .fa').click();
+    cy.get('#user-menu > :nth-child(4) > a').click();
   })
 })
