@@ -3,9 +3,7 @@ from lms.envs.production import *
 
 
 execfile(os.path.join(os.path.dirname(__file__), '..', 'common.py'), globals())
-
-# Fix media files paths
-PROFILE_IMAGE_BACKEND['options']['location'] = os.path.join(MEDIA_ROOT, 'profile-images/')
+execfile(os.path.join(os.path.dirname(__file__), 'common.py'), globals())
 
 ALLOWED_HOSTS = [
     ENV_TOKENS.get('LMS_BASE'),
@@ -32,15 +30,3 @@ PAYMENT_SUPPORT_EMAIL = ENV_TOKENS['CONTACT_EMAIL']
 BULK_EMAIL_DEFAULT_FROM_EMAIL = 'no-reply@' + ENV_TOKENS['LMS_BASE']
 API_ACCESS_MANAGER_EMAIL = ENV_TOKENS['CONTACT_EMAIL']
 API_ACCESS_FROM_EMAIL = ENV_TOKENS['CONTACT_EMAIL']
-
-ORA2_FILEUPLOAD_BACKEND = 'filesystem'
-ORA2_FILEUPLOAD_ROOT = '/openedx/data/ora2'
-ORA2_FILEUPLOAD_CACHE_NAME = 'ora2-storage'
-
-GRADES_DOWNLOAD = {
-    'STORAGE_TYPE': '',
-    'STORAGE_KWARGS': {
-        'base_url': "/media/grades/",
-        'location': os.path.join(MEDIA_ROOT, 'grades'),
-    }
-}
