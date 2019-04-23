@@ -25,6 +25,66 @@ LOGGING['handlers']['tracking'] = {
 
 LOCALE_PATHS.append('/openedx/locale')
 
+ORA2_FILEUPLOAD_BACKEND = 'filesystem'
+ORA2_FILEUPLOAD_ROOT = '/openedx/data/ora2'
+ORA2_FILEUPLOAD_CACHE_NAME = 'ora2-storage'
+
+CACHES = {
+    "default": {
+        "KEY_PREFIX": "default",
+        "VERSION": "1",
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    },
+    "general": {
+        "KEY_PREFIX":  "general",
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    },
+    "mongo_metadata_inheritance": {
+        "KEY_PREFIX": "mongo_metadata_inheritance",
+        "TIMEOUT": 300,
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    },
+    "staticfiles": {
+        "KEY_PREFIX": "staticfiles_cms",
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    },
+    "configuration": {
+        "KEY_PREFIX": "configuration",
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    },
+    "celery": {
+        "KEY_PREFIX":  "celery",
+        "TIMEOUT": "7200",
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    },
+    "course_structure_cache": {
+        "KEY_PREFIX": "course_structure",
+        "TIMEOUT": "7200",
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    },
+    "ora2-storage": {
+        "KEY_PREFIX": ORA2_FILEUPLOAD_CACHE_NAME,
+        "TIMEOUT": "7200",
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "KEY_FUNCTION": "util.memcache.safe_key",
+        "LOCATION": "memcached:11211"
+    }
+}
+
 # Create folders if necessary
 for folder in [LOG_DIR, MEDIA_ROOT, STATIC_ROOT_BASE, ORA2_FILEUPLOAD_ROOT]:
     if not os.path.exists(folder):

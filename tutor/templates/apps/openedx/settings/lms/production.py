@@ -1,4 +1,5 @@
 import os
+from openedx.core.lib.derived import derive_settings
 from lms.envs.production import *
 
 
@@ -22,3 +23,5 @@ PAYMENT_SUPPORT_EMAIL = ENV_TOKENS['CONTACT_EMAIL']
 BULK_EMAIL_DEFAULT_FROM_EMAIL = 'no-reply@' + ENV_TOKENS['LMS_BASE']
 API_ACCESS_MANAGER_EMAIL = ENV_TOKENS['CONTACT_EMAIL']
 API_ACCESS_FROM_EMAIL = ENV_TOKENS['CONTACT_EMAIL']
+
+devive_settings(__name__)
