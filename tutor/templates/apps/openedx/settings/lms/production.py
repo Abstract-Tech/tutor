@@ -2,9 +2,9 @@ import os
 from lms.envs.production import *
 
 
-execfile(os.path.join(os.path.dirname(__file__), '..', 'tutor_common', 'common.py'), globals())
-execfile(os.path.join(os.path.dirname(__file__), '..', 'tutor_common', 'common_production.py'), globals())
 execfile(os.path.join(os.path.dirname(__file__), 'common.py'), globals())
+execfile(os.path.join(os.path.dirname(__file__), '..', 'tutor_common', 'common_production.py'), globals())
+execfile(os.path.join(os.path.dirname(__file__), '..', 'tutor_common', 'common.py'), globals())
 
 
 # Required to display all courses on start page
