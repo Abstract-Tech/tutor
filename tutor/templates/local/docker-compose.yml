@@ -106,6 +106,8 @@ services:
       SETTINGS: ${EDX_PLATFORM_SETTINGS:-tutor.production}
     restart: unless-stopped
     volumes:
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/cms/envs/tutor_common/
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/lms/envs/tutor_common/
       - ../apps/openedx/settings/lms/:/openedx/edx-platform/lms/envs/tutor/
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
@@ -128,6 +130,8 @@ services:
       SETTINGS: ${EDX_PLATFORM_SETTINGS:-tutor.production}
     restart: unless-stopped
     volumes:
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/cms/envs/tutor_common/
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/lms/envs/tutor_common/
       - ../apps/openedx/settings/lms/:/openedx/edx-platform/lms/envs/tutor/
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
@@ -153,6 +157,8 @@ services:
     command: ./manage.py lms celery worker --loglevel=info --hostname=edx.lms.core.default.%%h --maxtasksperchild 100
     restart: unless-stopped
     volumes:
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/cms/envs/tutor_common/
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/lms/envs/tutor_common/
       - ../apps/openedx/settings/lms/:/openedx/edx-platform/lms/envs/tutor/
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
@@ -171,6 +177,8 @@ services:
     command: ./manage.py cms celery worker --loglevel=info --hostname=edx.cms.core.default.%%h --maxtasksperchild 100
     restart: unless-stopped
     volumes:
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/cms/envs/tutor_common/
+      - ../apps/openedx/settings/tutor_common/:/openedx/edx-platform/lms/envs/tutor_common/
       - ../apps/openedx/settings/lms/:/openedx/edx-platform/lms/envs/tutor/
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
