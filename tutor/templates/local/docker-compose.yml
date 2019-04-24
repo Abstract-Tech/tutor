@@ -60,6 +60,7 @@ services:
     volumes:
       - ../apps/nginx:/etc/nginx/conf.d/
       - ../../data/openedx:/var/www/openedx:ro
+      - ../../data/logs/lms:/var/log/nginx # <-- Add this line
       {% if ACTIVATE_CMS %}- ../../data/cms:/openedx/data/cms/:ro{% endif %}
       {% if ACTIVATE_LMS %}- ../../data/lms:/openedx/data/lms/:ro{% endif %}
       {% if ACTIVATE_HTTPS %}- ../../data/letsencrypt:/etc/letsencrypt/:ro{% endif %}
@@ -110,6 +111,7 @@ services:
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
       - ../../data/lms:/openedx/data
+      - ../../data/logs/SERVICE_NAME:/openedx/logs # <-- Add this line
     depends_on:
       {% if ACTIVATE_ELASTICSEARCH %}- elasticsearch{% endif %}
       {% if ACTIVATE_FORUM %}- forum{% endif %}
@@ -132,6 +134,7 @@ services:
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
       - ../../data/cms:/openedx/data
+      - ../../data/logs/SERVICE_NAME:/openedx/logs # <-- Add this line
     depends_on:
       {% if ACTIVATE_ELASTICSEARCH %}- elasticsearch{% endif %}
       {% if ACTIVATE_MEMCACHED %}- memcached{% endif %}
@@ -157,6 +160,7 @@ services:
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
       - ../../data/lms:/openedx/data
+      - ../../data/logs/SERVICE_NAME:/openedx/logs # <-- Add this line
     depends_on:
       {% if ACTIVATE_LMS %}- lms {% endif %}
   {% endif %}
@@ -175,6 +179,7 @@ services:
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
       - ../apps/openedx/config/:/openedx/config/
       - ../../data/cms:/openedx/data
+      - ../../data/logs/SERVICE_NAME:/openedx/logs # <-- Add this line
     depends_on:
       {% if ACTIVATE_CMS %}- cms {% endif %}
   {% endif %}

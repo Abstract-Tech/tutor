@@ -57,5 +57,14 @@ steps:
         npx cypress run
     displayName: 'Run cypress e2e tests'
 
-  - script: echo "We made it to the bottom of the file! Time to celebrate. Go have a pint! (just kidding, keep at it! There's much more work to do)"
-    displayName: 'Pat ourselves on the back'
+  - script: |
+      set +e
+      set -x
+      ls -lR $(tutor config printroot)/data/logs
+      cat $(tutor config printroot)/data/logs/lms/edx.log
+      cat $(tutor config printroot)/data/logs/lms/tracking.log
+      cat $(tutor config printroot)/data/logs/cms/edx.log
+      cat $(tutor config printroot)/data/logs/cms/tracking.log
+      cat $(tutor config printroot)/data/logs/nginx/access.log
+      cat $(tutor config printroot)/data/logs/nginx/error.log
+    displayName: 'Have a look at log files'
