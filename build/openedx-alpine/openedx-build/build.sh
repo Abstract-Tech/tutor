@@ -3,10 +3,9 @@ set -e
 set -x
 
 DIR=$(dirname $(readlink -f "$0"))
-TUTOR_DOCKER_DIR="$(cd "$(dirname "$0")"/../..; pwd)"
-export IMAGE_BASENAME=${IMAGE_BASENAME:-openedx}
+. "${DIR}/variables.sh"
 
-${DIR}/build_base_alpine.sh
+"${DIR}/build_base_alpine.sh"
 
 
 # A git proxy can be run with
