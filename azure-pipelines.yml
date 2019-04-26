@@ -65,7 +65,10 @@ steps:
   #- script: sudo buildah push localhost/openedx-first docker-daemon:regis/openedx:ironwood
   #  displayName: 'Push buildah image to docker'
 
-  - script: tutor local databases || tutor local databases
+  - script: |
+      tutor local databases
+      docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml --project-name tutor_local start mysql
+      tutor local databases
     displayName: 'Initialize databases'
 
   - script: tutor local start -d
