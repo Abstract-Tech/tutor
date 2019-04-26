@@ -17,8 +17,8 @@ steps:
 
   - script: |
       tutor config save --silent \
-        --set ACTIVATE_NOTES=true \
-        --set ACTIVATE_XQUEUE=true \
+        --set ACTIVATE_NOTES=false \
+        --set ACTIVATE_XQUEUE=false \
         --set LMS_HOST=localhost
     displayName: 'Configure tutor'
 
