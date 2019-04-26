@@ -22,17 +22,31 @@ steps:
         --set LMS_HOST=localhost
     displayName: 'Configure tutor'
 
-  - script: tutor local pullimages
-    displayName: 'Pull docker images'
+  - script: |
+      sudo apt-get update -qq
+      sudo apt-get install -qq -y software-properties-common
+      sudo add-apt-repository -y ppa:projectatomic/ppa
+      sudo apt-get update -qq
+      sudo apt-get -qq -y install buildah
+    displayName: 'Install buildah'
+
+  - script: $(tutor config printroot)/env/build/openedx-alpine/build_base_alpine.sh
+    displayName: 'Build base Alpine images'
+
+  - script: $(tutor config printroot)/env/build/openedx-alpine/build_wheels.sh
+    displayName: 'Build image with wheels'
+
+  - script: $(tutor config printroot)/env/build/openedx-alpine/build_openedx_image.sh
+    displayName: 'Build complete openedx image'
+
+  - script: sudo buildah push localhost/openedx-first docker-daemon:regis/openedx:ironwood
+    displayName: 'Push buildah image to docker'
 
   - script: tutor local databases
     displayName: 'Initialize databases'
 
   - script: tutor local start -d
     displayName: 'Start edX server'
-
-  - script: curl -v http://localhost/
-    displayName: 'Run curl command to confirm tutor is running'
 
   - script: |
       docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml \
