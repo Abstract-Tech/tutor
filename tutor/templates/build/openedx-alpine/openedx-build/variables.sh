@@ -1,4 +1,4 @@
-TUTOR_DOCKER_DIR="$(cd "$(dirname "$0")"/../../../tutor/templates/; pwd)"
+TUTOR_DOCKER_DIR="$(cd "$(dirname "$0")"/../../..; pwd)"
 export IMAGE_BASENAME=${IMAGE_BASENAME:-openedx}
 
 # TODO: keep in sync with tutor `tutor/templates/build/openedx/Dockerfile`
@@ -37,7 +37,7 @@ fi
 if [ ! -z "$GIT_CACHE_PROXY_URL" ] ; then
     buildah run $CONTAINER -- git config --global url."$GIT_CACHE_PROXY_URL".insteadOf https://
 fi
-EDX_PLATFORM_PATH=${DIR}/../edx-platform 
+EDX_PLATFORM_PATH=${DIR}/../edx-platform
 checkout_edx_platform () {
     if [ ! -d ${EDX_PLATFORM_PATH} ]; then
         git clone ${EDX_PLATFORM_REPOSITORY} --branch ${EDX_PLATFORM_VERSION} --depth 1 ${EDX_PLATFORM_PATH}
