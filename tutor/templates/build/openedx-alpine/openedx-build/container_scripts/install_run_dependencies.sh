@@ -7,6 +7,7 @@ wget -q -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_V
 echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 apk add \
+    bash \
     geos-dev@testing \
     gettext \
     git \
