@@ -9,6 +9,8 @@ Images used in intermediate steps
 
 To achieve the goal of fast image build, image preparation is divided into multiple steps.
 
+The idea behind this is that some parts change more often than others, and we can build base images with the ones that are seldom updated, like operating system dependencies; the same reasoning is done about python wheels and the edx-platform code itself.
+
 Two images are created using the python alpine one as a base.
 One includes all packages needed to build wheels, the other one with packages needed at runtime.
 

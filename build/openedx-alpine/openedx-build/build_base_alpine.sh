@@ -11,7 +11,6 @@ if (buildah images|grep ^localhost/${IMAGE_BUILDWHEELS}\ ); then
     echo '\e[1;32m'Not building ${IMAGE_BUILDWHEELS}: already built'\e[0m'
 else
     CONTAINER=$(buildah from python:2-alpine3.7)
-    CONTAINER=${CONTAINER%%[[:space:]]}
 
     buildah config \
         --env DOCKERIZE_VERSION=$DOCKERIZE_VERSION \
@@ -32,7 +31,6 @@ if (buildah images|grep ^localhost/${IMAGE_BASE}\ ); then
     echo '\e[1;32m'Not building ${IMAGE_BASE}: already built'\e[0m'
 else
     CONTAINER=$(buildah from python:2-alpine3.7)
-    CONTAINER=${CONTAINER%%[[:space:]]}
 
     buildah config \
         --env DOCKERIZE_VERSION=$DOCKERIZE_VERSION \

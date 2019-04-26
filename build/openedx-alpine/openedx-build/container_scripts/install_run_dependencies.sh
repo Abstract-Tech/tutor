@@ -8,6 +8,8 @@ echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposi
 
 apk add \
     geos-dev@testing \
+    gettext \
+    git \
     graphviz \
     nodejs  `# Is this really a run dependency? Maybe we could install/uninstall it as needed` \
     freetype \
