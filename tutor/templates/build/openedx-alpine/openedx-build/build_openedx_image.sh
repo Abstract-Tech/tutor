@@ -28,7 +28,7 @@ else
     buildah config \
         --author='Silvio Tomatis' \
         --entrypoint '["/openedx/bin/docker-entrypoint.sh"]' \
-        --cmd '/bin/sh -c "gunicorn -c file:/openedx/gunicorn_conf.py --name ${SERVICE_VARIANT} --bind=0.0.0.0:8000 --max-requests=1000 ${SERVICE_VARIANT}.wsgi:application"' \
+        --cmd '/bin/sh -c "gunicorn -c /openedx/gunicorn_conf.py --name ${SERVICE_VARIANT} --bind=0.0.0.0:8000 --max-requests=1000 ${SERVICE_VARIANT}.wsgi:application"' \
         --workingdir='/openedx/edx-platform' \
         --env CONFIG_ROOT=/openedx/config \
         --env PATH=/openedx/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
