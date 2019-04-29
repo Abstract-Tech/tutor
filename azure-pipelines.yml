@@ -142,7 +142,9 @@ steps:
 
   - script: tutor local logs
     displayName: Show tutor logs
+    condition: always()
 
   - script: |
       tutor/templates/build/openedx-alpine/publish_results.sh tests/e2e/cypress/videos
     displayName: 'Publish test artifacts'
+    condition: always()
