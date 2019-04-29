@@ -121,6 +121,7 @@ steps:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
       targetfolder: '$(TUTOR_ROOT)/data'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
+    condition: ne(variables['CacheRestored'], 'true')
 
   - script: docker pull cypress/browsers:node11.13.0-chrome73
     displayName: Pull cypress docker image
