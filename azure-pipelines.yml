@@ -6,14 +6,29 @@
 pool:
   vmImage: 'Ubuntu-16.04'
 
+variables:
+  - group: Publish test results
+
 steps:
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '3.6'
       architecture: 'x64'
 
-  - script: cat /proc/cpuinfo
-    displayName: Get CPU info
+  - script: |
+      mkdir ~/.ssh
+      echo -e ${TEST_RESULTS_KEY} > ~/.ssh/id_ecdsa
+      echo -e ${TEST_RESULTS_KEY_PUBLIC} > ~/.ssh/id_ecdsa.pub
+      echo -e ${TEST_RESULTS_KNOWN_HOSTS} > ~/.ssh/known_hosts
+      chmod 0600 ~/.ssh/id_ecdsa ~/.ssh/known_hosts
+    displayName: Install key to publish test results
+    env:
+      TEST_RESULTS_KEY: $(TEST_RESULTS_KEY)
+
+  - script: |
+      pwd
+      false
+    displayName: Fail the build
 
   - script: pip install -r requirements/base.txt && pip install .
     displayName: 'Install tutor'
