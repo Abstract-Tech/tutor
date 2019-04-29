@@ -282,7 +282,7 @@ def run_bash(root, service, command):
 
 def exec_sh(root, service, command):
     config = tutor_config.load(root)
-    docker_compose(root, config, "exec", service, "sh", "-e", "-c", command)
+    docker_compose(root, config, "exec", "-T", service, "sh", "-e", "-c", command)
 
 def docker_compose(root, config, *command):
     return utils.docker_compose(
