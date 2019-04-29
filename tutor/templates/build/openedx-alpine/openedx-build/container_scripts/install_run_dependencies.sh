@@ -17,7 +17,6 @@ apk add \
     lapack \
     libjpeg \
     libxslt \
-    libc-dev `# needed by libgeos` \
     mariadb-client-libs \
     sqlite \
     xmlsec
