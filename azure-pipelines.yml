@@ -41,6 +41,7 @@ steps:
       ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
       true
     displayName: Cat tutor config file
+    condition: always()
 
   - script: |
       tutor config save --silent \
@@ -48,6 +49,12 @@ steps:
         --set ACTIVATE_XQUEUE=false \
         --set LMS_HOST=localhost
     displayName: 'Configure tutor'
+
+  - script: |
+      ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
+      true
+    displayName: Cat tutor config file
+    condition: always()
 
   - script: |
       docker pull silviot/openedx-alpine:ironwood
@@ -91,6 +98,7 @@ steps:
       ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
       true
     displayName: Cat tutor config file
+    condition: always()
 
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
     inputs:
