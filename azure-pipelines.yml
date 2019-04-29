@@ -12,6 +12,9 @@ steps:
       versionSpec: '3.6'
       architecture: 'x64'
 
+  - script: cat /proc/cpuinfo
+    displayName: Get CPU info
+
   - script: pip install -r requirements/base.txt && pip install .
     displayName: 'Install tutor'
 
