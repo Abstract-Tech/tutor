@@ -12,7 +12,6 @@ apk add \
     gettext \
     git \
     graphviz \
-    nodejs  `# Is this really a run dependency? Maybe we could install/uninstall it as needed` \
     freetype \
     graphviz \
     lapack \
