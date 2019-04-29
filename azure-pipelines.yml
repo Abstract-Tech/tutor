@@ -113,6 +113,7 @@ steps:
         bash -e -c \
           './manage.py lms --settings=tutor.production loaddata users.json'
       tutor local stop
+      sudo chown $(id -u) '$(TUTOR_ROOT)/data' -R
     displayName: 'Create initial users to be used in tests'
     condition: ne(variables['CacheRestored'], 'true')
 
