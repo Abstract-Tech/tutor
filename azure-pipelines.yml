@@ -88,11 +88,18 @@ steps:
   #- script: sudo buildah push localhost/openedx-first docker-daemon:regis/openedx:ironwood
   #  displayName: 'Push buildah image to docker'
 
+  - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
+    inputs:
+      keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
+      targetfolder: '$(TUTOR_ROOT)/data'
+      vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
+
   - script: |
       tutor local databases
       docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml --project-name tutor_local start mysql
       tutor local databases
     displayName: 'Initialize databases'
+    condition: ne(variables['CacheRestored'], 'true')
 
   - script: tutor local start -d
     displayName: 'Start edX server'
@@ -105,7 +112,15 @@ steps:
       lms \
         bash -e -c \
           './manage.py lms --settings=tutor.production loaddata users.json'
+      tutor local stop
     displayName: 'Create initial users to be used in tests'
+    condition: ne(variables['CacheRestored'], 'true')
+
+  - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
+    inputs:
+      keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
+      targetfolder: '$(TUTOR_ROOT)/data'
+      vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
   - script: |
       docker build tests/e2e -t cypress:tutor
