@@ -87,8 +87,6 @@ steps:
 
   - script: |
       tutor local databases
-      docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml --project-name tutor_local start mysql
-      tutor local databases
     displayName: 'Initialize databases'
     condition: ne(variables['CacheRestored'], 'true')
 

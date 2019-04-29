@@ -124,7 +124,8 @@ def run(root, service, command, args):
 @opts.root
 def databases(root):
     init_mysql(root)
-    scripts.migrate(root, run_bash)
+    docker_compose(root, tutor_config.load(root), "up", "-d", "mysql")
+    scripts.migrate(root, run_bash, exec_sh)
 
 def init_mysql(root):
     config = tutor_config.load(root)
@@ -278,6 +279,10 @@ def check_service_is_activated(config, service):
 def run_bash(root, service, command):
     config = tutor_config.load(root)
     docker_compose(root, config, "run", "--rm", service, "bash", "-e", "-c", command)
+
+def exec_sh(root, service, command):
+    config = tutor_config.load(root)
+    docker_compose(root, config, "exec", service, "sh", "-e", "-c", command)
 
 def docker_compose(root, config, *command):
     return utils.docker_compose(
