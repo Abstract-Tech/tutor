@@ -25,15 +25,14 @@ steps:
     env:
       TEST_RESULTS_KEY: $(TEST_RESULTS_KEY)
 
-  - script: |
-      pwd
-      false
-    displayName: Fail the build
+  - script: echo "##vso[task.setvariable variable=TUTOR_ROOT;]$(pwd)/tutor_root"
+    displayName: Set TUTOR_ROOT variable to a location internal to the project
 
   - script: pip install -r requirements/base.txt && pip install .
     displayName: 'Install tutor'
 
   - script: |
+      tutor config printroot
       tutor config save --silent \
         --set ACTIVATE_NOTES=false \
         --set ACTIVATE_XQUEUE=false \
