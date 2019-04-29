@@ -38,6 +38,11 @@ steps:
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
   - script: |
+      ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
+      true
+    displayName: Cat tutor config file
+
+  - script: |
       tutor config save --silent \
         --set ACTIVATE_NOTES=false \
         --set ACTIVATE_XQUEUE=false \
@@ -81,6 +86,11 @@ steps:
       sudo chown $(id -u) '$(TUTOR_ROOT)/data/mysql' '$(TUTOR_ROOT)/data/mongodb' -R
     displayName: 'Create initial users to be used in tests'
     condition: ne(variables['CacheRestored'], 'true')
+
+  - script: |
+      ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
+      true
+    displayName: Cat tutor config file
 
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
     inputs:
