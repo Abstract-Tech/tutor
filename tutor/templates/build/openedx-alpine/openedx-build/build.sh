@@ -10,3 +10,5 @@ DIR=$(dirname $(readlink -f "$0"))
 "${DIR}/build_wheels.sh"
 
 "${DIR}/build_openedx_image.sh"
+
+buildah push ${IMAGE_BASENAME} docker-daemon:silviot/${IMAGE_BASENAME}:ironwood
