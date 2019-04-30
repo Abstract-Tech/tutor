@@ -107,6 +107,9 @@ steps:
   - script: tutor local start -d
     displayName: 'Start edX server'
 
+  - script: curl http://localhost; curl http://studio.localhost; true
+    displayName: 'Start edX server'
+
   - script: |
       if pgrep -F cypress.pid; then
         TAIL_OPTS=" -f --pid=$(cat cypress.pid)"
