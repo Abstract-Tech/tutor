@@ -48,6 +48,7 @@ steps:
   - script: |
       ls -l $(TUTOR_ROOT)/config && cat $(TUTOR_ROOT)/config/config.yml
       cp tutor_root/config/config.yml tutor_root/config.yml
+      ls -lR $(TUTOR_ROOT)
       true
     displayName: Extract the tutor config file from directory if present
     condition: always()
