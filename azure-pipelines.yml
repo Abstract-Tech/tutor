@@ -146,10 +146,8 @@ steps:
       sudo pip install ansi2html
       for service in $(${DOCKER_COMPOSE} ps --services); do
         ${DOCKER_COMPOSE} logs $service | ansi2html > logs/$service.log.html
-        ${DOCKER_COMPOSE} logs $service | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" > logs/$service.log
       done
       ${DOCKER_COMPOSE} logs | ansi2html > logs/all.log.html
-      ${DOCKER_COMPOSE} logs | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" > logs/all.log
     displayName: Save logs for archival
     condition: always()
 
