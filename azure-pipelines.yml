@@ -46,11 +46,10 @@ steps:
     displayName: 'Install tutor'
 
   - script: |
-      ls -l $(TUTOR_ROOT)/config && cat $(TUTOR_ROOT)/config/config.yml
-      cp tutor_root/config/config.yml tutor_root/config.yml
       ls -lR $(TUTOR_ROOT)
+      ls -l pip_cache
       true
-    displayName: Extract the tutor config file from directory if present
+    displayName: Inspect cached files
     condition: always()
 
   - script: |
@@ -93,9 +92,11 @@ steps:
     condition: ne(variables['CacheRestored'], 'true')
 
   - script: |
-      mkdir tutor_root/config
-      cp tutor_root/config.yml tutor_root/config/config.yml
-    displayName: Copy config file in a directory for cache consumption
+      ls -lR $(TUTOR_ROOT)
+      ls -l pip_cache
+      true
+    displayName: Inspect cached files
+    condition: always()
 
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
     inputs:
@@ -108,7 +109,7 @@ steps:
     displayName: 'Start edX server'
 
   - script: curl http://localhost; curl http://studio.localhost; true
-    displayName: 'Start edX server'
+    displayName: 'Try with curl'
 
   - script: |
       if pgrep -F cypress.pid; then

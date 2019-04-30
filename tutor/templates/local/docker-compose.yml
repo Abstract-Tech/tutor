@@ -105,6 +105,7 @@ services:
       SERVICE_VARIANT: lms
       SETTINGS: ${EDX_PLATFORM_SETTINGS:-tutor.production}
     restart: unless-stopped
+    command: /bin/sh -c "gunicorn --workers 2 --name $${SERVICE_VARIANT} --bind=0.0.0.0:8000 --max-requests=1000 $${SERVICE_VARIANT}.wsgi:application"
     volumes:
       - ../apps/openedx/settings/lms/:/openedx/edx-platform/lms/envs/tutor/
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
@@ -127,6 +128,7 @@ services:
       SERVICE_VARIANT: cms
       SETTINGS: ${EDX_PLATFORM_SETTINGS:-tutor.production}
     restart: unless-stopped
+    command: /bin/sh -c "gunicorn --workers 2 --name $${SERVICE_VARIANT} --bind=0.0.0.0:8000 --max-requests=1000 $${SERVICE_VARIANT}.wsgi:application"
     volumes:
       - ../apps/openedx/settings/lms/:/openedx/edx-platform/lms/envs/tutor/
       - ../apps/openedx/settings/cms/:/openedx/edx-platform/cms/envs/tutor/
