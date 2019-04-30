@@ -134,11 +134,13 @@ steps:
 
   - script: |
       mkdir logs
-      sudo npm install -g ansi-to-html
+      sudo pip install ansi2html
       for service in $(${DOCKER_COMPOSE} ps --services); do
-        ${DOCKER_COMPOSE} logs $service | ansi-to-html -n -x > logs/$service.log.html
+        ${DOCKER_COMPOSE} logs $service | ansi2html -A > logs/$service.log.html
+        ${DOCKER_COMPOSE} logs $service | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" > logs/$service.log
       done
-      ${DOCKER_COMPOSE} logs | ansi-to-html -n -x > logs/all.log.html
+      ${DOCKER_COMPOSE} logs | ansi2html -A > logs/all.log.html
+      ${DOCKER_COMPOSE} logs | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" > logs/all.log
     displayName: Save logs for archival
     condition: always()
 
