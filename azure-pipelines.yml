@@ -15,8 +15,8 @@ steps:
       versionSpec: '3.6'
       architecture: 'x64'
 
-  - script: nohup time docker pull cypress/browsers:node11.13.0-chrome73 > cypress_download.log
-    displayName: Start pull of cypress image
+  - script: nohup /usr/bin/time -o cypress_time.log -p docker build tests/e2e -t cypress > cypress.log 2> cypress.err &
+    displayName: Start building cypress image
 
   - script: |
       mkdir ~/.ssh
@@ -101,7 +101,7 @@ steps:
   - script: tutor local start -d
     displayName: 'Start edX server'
 
-  - script: cat cypress_download.log
+  - script: tail -n +1 cypress_time.log cypress.log cypress.err
     displayName: Show progress from cypress docker image pulling
 
   - script: |
@@ -114,8 +114,8 @@ steps:
         -v $(pwd)/tests/e2e/cypress.json:/app/cypress.json \
         -v $(pwd)/tests/e2e/package.json:/app/package.json \
         -v $(pwd)/tests/e2e/package-lock.json:/app/package-lock.json \
-        cypress/browsers:node11.13.0-chrome73 \
-        sh -c 'cd /app; npm ci; $(npm bin)/cypress run'
+        cypress \
+        sh -c 'cd /app; $(npm bin)/cypress run'
     displayName: 'Run cypress e2e tests'
 
   - script: tutor local logs

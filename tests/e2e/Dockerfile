@@ -1,4 +1,4 @@
-FROM cypress/browsers:chrome69
+FROM cypress/browsers:node11.13.0-chrome73
 WORKDIR /app
 
 # dependencies will be installed only if the package files change
@@ -14,6 +14,3 @@ RUN npm ci
 # running this command separately from "cypress run" will also cache its result
 # to avoid verifying again when running the tests
 RUN npx cypress verify
-
-COPY cypress cypress
-COPY cypress.json .
