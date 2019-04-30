@@ -109,9 +109,9 @@ steps:
 
   - script: |
       if pgrep -F cypress.pid; then
-        TAIL_OPTS="--pid=$(cat cypress.pid)"
+        TAIL_OPTS=" -f --pid=$(cat cypress.pid)"
       fi
-      tail $TAIL_OPTS -n +1 cypress_time.log cypress.log cypress.err
+      tail ${TAIL_OPTS} -n +1 cypress_time.log cypress.log cypress.err
     displayName: Show progress from cypress docker image pulling and wait if needed
 
   - script: |
