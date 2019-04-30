@@ -28,7 +28,9 @@ steps:
     env:
       TEST_RESULTS_KEY: $(TEST_RESULTS_KEY)
 
-  - script: echo "##vso[task.setvariable variable=TUTOR_ROOT;]$(pwd)/tutor_root"
+  - script: |
+      echo "##vso[task.setvariable variable=TUTOR_ROOT;]$(pwd)/tutor_root"
+      echo "##vso[task.setvariable variable=DOCKER_COMPOSE;]docker-compose -f $(pwd)/tutor_root/env/local/docker-compose.yml --project-name tutor_local"
     displayName: Set TUTOR_ROOT variable to a location internal to the project
 
   - script: pip install -r requirements/base.txt && pip install .
@@ -59,20 +61,8 @@ steps:
       docker tag silviot/openedx-alpine:ironwood regis/openedx:ironwood
     displayName: 'Pull ironwood docker image'
 
-  - script: docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml pull mysql nginx memcached rabbitmq elasticsearch mongodb smtp
+  - script: ${DOCKER_COMPOSE} pull mysql nginx memcached rabbitmq elasticsearch mongodb smtp
     displayName: 'Pull other docker images'
-
-  #- script: $(tutor config printroot)/env/build/openedx-alpine/build_base_alpine.sh
-  #  displayName: 'Build base Alpine images'
-
-  #- script: $(tutor config printroot)/env/build/openedx-alpine/build_wheels.sh
-  #  displayName: 'Build image with wheels'
-
-  #- script: $(tutor config printroot)/env/build/openedx-alpine/build_openedx_image.sh
-  #  displayName: 'Build complete openedx image'
-
-  #- script: sudo buildah push localhost/openedx-first docker-daemon:regis/openedx:ironwood
-  #  displayName: 'Push buildah image to docker'
 
   - script: |
       tutor local databases
@@ -80,8 +70,7 @@ steps:
     condition: ne(variables['CacheRestored'], 'true')
 
   - script: |
-      docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml \
-      --project-name tutor_local \
+      ${DOCKER_COMPOSE} \
       run --rm \
       -v $(pwd)/tests/fixtures/users.json:/openedx/edx-platform/users.json \
       lms \
