@@ -117,7 +117,7 @@ steps:
 
   - script: |
       mkdir logs
-      npm install -g ansi-to-html
+      sudo npm install -g ansi-to-html
       for service in $(${DOCKER_COMPOSE} ps --services); do
         ${DOCKER_COMPOSE} logs $service | ansi-to-html -n -x > logs/$service.log.html
       done
