@@ -113,6 +113,17 @@ steps:
     condition: always()
 
   - script: |
-      tutor/templates/build/openedx-alpine/publish_results.sh tests/e2e/cypress/videos tests/e2e/cypress/screenshots/
+      mkdir logs
+      npm install -g ansi-to-html
+      for service in $(${DOCKER_COMPOSE} ps --services); do
+        ${DOCKER_COMPOSE} logs $service | ansi-to-html -n -x > logs/$service.log.html
+      done
+    displayName: Save logs for archival
+
+  - script: |
+      tutor/templates/build/openedx-alpine/publish_results.sh \
+        tests/e2e/cypress/videos \
+        tests/e2e/cypress/screenshots \
+        logs
     displayName: 'Publish test artifacts'
     condition: always()
