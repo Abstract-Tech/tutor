@@ -34,17 +34,11 @@ steps:
   - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: '$(TUTOR_ROOT)/data/mysql, $(TUTOR_ROOT)/data/mongodb, $(TUTOR_ROOT)/config.yml'
+      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
   - script: |
-      ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
-      true
-    displayName: Cat tutor config file
-    condition: always()
-
-  - script: |
-      tutor config save --silent \
+      tutor config save -y --silent \
         --set ACTIVATE_NOTES=false \
         --set ACTIVATE_XQUEUE=false \
         --set LMS_HOST=localhost
@@ -94,16 +88,10 @@ steps:
     displayName: 'Create initial users to be used in tests'
     condition: ne(variables['CacheRestored'], 'true')
 
-  - script: |
-      ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
-      true
-    displayName: Cat tutor config file
-    condition: always()
-
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: '$(TUTOR_ROOT)/data/mysql, $(TUTOR_ROOT)/data/mongodb, $(TUTOR_ROOT)/config.yml'
+      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
     condition: ne(variables['CacheRestored'], 'true')
 
