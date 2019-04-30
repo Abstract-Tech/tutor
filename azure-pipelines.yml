@@ -35,7 +35,13 @@ steps:
       echo "##vso[task.setvariable variable=DOCKER_COMPOSE;]docker-compose -f $(pwd)/tutor_root/env/local/docker-compose.yml --project-name tutor_local"
     displayName: Set TUTOR_ROOT variable to a location internal to the project
 
-  - script: pip install -r requirements/base.txt && pip install .
+  - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
+    inputs:
+      keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
+      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml, pip_cache'
+      vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
+
+  - script: pip install --cache-dir pip_cache -c requirements/base.txt .
     displayName: 'Install tutor'
 
   - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
@@ -92,7 +98,7 @@ steps:
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml'
+      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml, pip_cache'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
     condition: ne(variables['CacheRestored'], 'true')
 
