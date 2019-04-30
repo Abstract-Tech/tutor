@@ -146,7 +146,6 @@ def init_mysql(root):
         ])
         if b"MySQL init process done. Ready for start up." in logs:
             click.echo(fmt.info("MySQL database initialized"))
-            docker_compose(root, config, "stop", "mysql")
             return
         sleep(4)
 
