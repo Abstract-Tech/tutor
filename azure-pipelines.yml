@@ -122,7 +122,9 @@ steps:
       for service in $(${DOCKER_COMPOSE} ps --services); do
         ${DOCKER_COMPOSE} logs $service | ansi-to-html -n -x > logs/$service.log.html
       done
+      ${DOCKER_COMPOSE} logs | ansi-to-html -n -x > logs/all.log.html
     displayName: Save logs for archival
+    condition: always()
 
   - script: |
       tutor/templates/build/openedx-alpine/publish_results.sh \
