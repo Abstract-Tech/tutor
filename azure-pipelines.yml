@@ -39,8 +39,14 @@ steps:
   - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml, pip_cache'
+      targetfolder: 'cache'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
+
+  - script: |
+      cp -rv cache/tutor_root cache/pip_cache .
+      true
+    displayName: Move cached files if necessary
+    condition: always()
 
   - script: |
       ls -ld pip_cache
@@ -100,6 +106,17 @@ steps:
       ls -l pip_cache
       true
     displayName: Inspect cached files
+    condition: always()
+
+  - script: |
+      mkdir -p cache/tutor_root/data/
+      chown $(id -u) -R tutor_root/data/mysql tutor_root/data/mongodb tutor_root/config.yml pip_cache
+      cp -rv tutor_root/data/mysql cache/tutor_root/data/
+      cp -rv tutor_root/data/mongodb cache/tutor_root/data/
+      cp -v tutor_root/config.yml cache/tutor_root/
+      cp -rv pip_cache cache/
+      true
+    displayName: Move cached files if necessary
     condition: always()
 
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
