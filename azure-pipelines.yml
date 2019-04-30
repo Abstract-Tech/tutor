@@ -36,25 +36,20 @@ steps:
       echo "##vso[task.setvariable variable=DOCKER_COMPOSE;]docker-compose -f $(pwd)/tutor_root/env/local/docker-compose.yml --project-name tutor_local"
     displayName: Set TUTOR_ROOT variable to a location internal to the project
 
-  - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
-    inputs:
-      keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml, pip_cache'
-      vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
-
   - script: pip install --cache-dir pip_cache -c requirements/base.txt .
     displayName: 'Install tutor'
 
   - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml'
+      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
   - script: |
-      ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
+      ls -l $(TUTOR_ROOT)/config && cat $(TUTOR_ROOT)/config/config.yml
+      cp tutor_root/config/config.yml tutor_root/config.yml
       true
-    displayName: Cat tutor config file
+    displayName: Extract the tutor config file from directory if present
     condition: always()
 
   - script: |
@@ -96,10 +91,15 @@ steps:
     displayName: 'Create initial users to be used in tests'
     condition: ne(variables['CacheRestored'], 'true')
 
+  - script: |
+      mkdir tutor_root/config
+      cp tutor_root/config.yml tutor_root/config/config.yml
+    displayName: Copy config file in a directory for cache consumption
+
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml, pip_cache'
+      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config, pip_cache'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
     condition: ne(variables['CacheRestored'], 'true')
 
