@@ -15,6 +15,9 @@ steps:
       versionSpec: '3.6'
       architecture: 'x64'
 
+  - script: nohup time docker pull cypress/browsers:node11.13.0-chrome73 > cypress_download.log
+    displayName: Start pull of cypress image
+
   - script: |
       mkdir ~/.ssh
       echo -e ${TEST_RESULTS_KEY} > ~/.ssh/id_ecdsa
@@ -98,8 +101,8 @@ steps:
   - script: tutor local start -d
     displayName: 'Start edX server'
 
-  - script: docker pull cypress/browsers:node11.13.0-chrome73
-    displayName: Pull cypress docker image
+  - script: cat cypress_download.log
+    displayName: Show progress from cypress docker image pulling
 
   - script: |
       docker run --rm \
