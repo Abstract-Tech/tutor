@@ -10,8 +10,7 @@ for dirname in $@; do
         REMOTE=${TEST_RESULTS_USER}@${TEST_RESULTS_HOST}
         ssh ${REMOTE} mkdir -p ${REMOTE_DIR}
         scp -r "$dirname" ${REMOTE}:${REMOTE_DIR}
-        [ -d $dirname ] && echo copied ${REMOTE_URL}/$(dirname $dirname)
-        [ -f $dirname ] && echo copied ${REMOTE_URL}/$(basename $dirname)
+        echo copied ${REMOTE_URL}/$(basename $dirname)
     else
         echo "$dirname" not found. Skipping
     fi
