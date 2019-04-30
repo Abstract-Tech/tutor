@@ -124,7 +124,6 @@ def run(root, service, command, args):
 @opts.root
 def databases(root):
     init_mysql(root)
-    docker_compose(root, tutor_config.load(root), "up", "-d", "mysql")
     scripts.migrate(root, run_bash, exec_sh)
 
 def init_mysql(root):
