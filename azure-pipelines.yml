@@ -45,6 +45,12 @@ steps:
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
   - script: |
+      ls -l $(TUTOR_ROOT)/config.yml && cat $(TUTOR_ROOT)/config.yml
+      true
+    displayName: Cat tutor config file
+    condition: always()
+
+  - script: |
       tutor config save -y --silent \
         --set ACTIVATE_NOTES=false \
         --set ACTIVATE_XQUEUE=false \
