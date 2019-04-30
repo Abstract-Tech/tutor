@@ -44,7 +44,7 @@ steps:
 
   - script: |
       ls -ld pip_cache
-      chown $(id -u) pip_cache -R
+      chown $(id -u):$(id -g) pip_cache -R
       pip install --cache-dir pip_cache -c requirements/base.txt .
     displayName: 'Install tutor'
 
@@ -90,7 +90,8 @@ steps:
         bash -e -c \
           './manage.py lms --settings=tutor.production loaddata users.json'
       tutor local stop
-      sudo chown $(id -u) '$(TUTOR_ROOT)/data/mysql' '$(TUTOR_ROOT)/data/mongodb' -R
+      ls -ld $(TUTOR_ROOT)/data/mysql $(TUTOR_ROOT)/data/mongodb $(TUTOR_ROOT)/config.yml
+      sudo chown $(id -u):$(id -g) $(TUTOR_ROOT)/data/mysql $(TUTOR_ROOT)/data/mongodb $(TUTOR_ROOT)/config.yml -R
     displayName: 'Create initial users to be used in tests'
     condition: ne(variables['CacheRestored'], 'true')
 
