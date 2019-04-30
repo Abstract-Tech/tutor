@@ -42,7 +42,10 @@ steps:
       targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml, pip_cache'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
-  - script: pip install --cache-dir pip_cache -c requirements/base.txt .
+  - script: |
+      ls -ld pip_cache
+      chown $(id -u) pip_cache -R
+      pip install --cache-dir pip_cache -c requirements/base.txt .
     displayName: 'Install tutor'
 
   - script: |
