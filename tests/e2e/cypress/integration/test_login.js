@@ -6,6 +6,7 @@ describe('Login tests', () => {
   it('allows admin user access', () => {
     cy.contains('Sign in').click();
     cy.get('#login-email').type('user@example.com');
+    cy.screenshot();
     cy.get('#login-password').type('secret');
     cy.get('.action').click();
     cy.contains('Discover New').click();
