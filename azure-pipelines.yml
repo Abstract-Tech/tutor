@@ -17,8 +17,7 @@ steps:
 
   - script: |
       nohup /usr/bin/time -o cypress_time.log -p \
-        docker build tests/e2e -t cypress > cypress.log 2> cypress.err \
-        & echo $! > cypress.pid
+        docker build tests/e2e -t cypress > cypress.log 2> cypress.err
     displayName: Start building cypress image
 
   - script: |
@@ -95,7 +94,7 @@ steps:
     displayName: 'Start edX server'
 
   - script: |
-      tail --pid=$(cat cypress.pid) -n +1 cypress_time.log cypress.log cypress.err
+      tail --pid=$(pgrep nohup) -n +1 cypress_time.log cypress.log cypress.err
     displayName: Show progress from cypress docker image pulling and wait if needed
 
   - script: |
