@@ -39,7 +39,7 @@ steps:
   - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: 'cache'
+      targetfolder: 'cache/**'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
   - script: |
@@ -122,7 +122,7 @@ steps:
   - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
     inputs:
       keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: 'tutor_root/data/mysql, tutor_root/data/mongodb, tutor_root/config.yml, pip_cache'
+      targetfolder: 'cache/**'
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
     condition: ne(variables['CacheRestored'], 'true')
 
