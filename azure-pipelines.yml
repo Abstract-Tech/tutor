@@ -108,10 +108,10 @@ steps:
   - script: |
       mkdir -p cache/tutor_root/data/
       chown $(id -u) -R tutor_root/data/mysql tutor_root/data/mongodb tutor_root/config.yml pip_cache
-      cp -rv tutor_root/data/mysql cache/tutor_root/data/
-      cp -rv tutor_root/data/mongodb cache/tutor_root/data/
-      cp -v tutor_root/config.yml cache/tutor_root/
-      cp -rv pip_cache cache/
+      mv tutor_root/data/mysql cache/tutor_root/data/
+      mv tutor_root/data/mongodb cache/tutor_root/data/
+      mv tutor_root/config.yml cache/tutor_root/
+      mv pip_cache cache/
       true
     displayName: Move cached files if necessary
     condition: always()
