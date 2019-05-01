@@ -43,23 +43,20 @@ steps:
       vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
 
   - script: |
-      cp -rv cache/tutor_root cache/pip_cache .
+      mv cache/tutor_root cache/pip_cache .
       true
     displayName: Move cached files if necessary
-    condition: always()
 
   - script: |
-      ls -ld pip_cache
-      chown $(id -u):$(id -g) pip_cache -R
+      pip install wheel
+      pip wheel -r requirements/base.txt  -w pip_cache/
+    displayName: 'Create wheels'
+    condition: ne(variables['CacheRestored'], 'true')
+
+  - script: |
+      pip install pip_cache/*.whl
       pip install --cache-dir pip_cache -c requirements/base.txt .
     displayName: 'Install tutor'
-
-  - script: |
-      ls -lR $(TUTOR_ROOT)
-      ls -l pip_cache
-      true
-    displayName: Inspect cached files
-    condition: always()
 
   - script: |
       tutor config save -y --silent \
