@@ -31,12 +31,6 @@ steps:
   - script: pip install -r requirements/base.txt && pip install .
     displayName: 'Install tutor'
 
-  - task: 1ESLighthouseEng.PipelineArtifactCaching.RestoreCacheV1.RestoreCache@1
-    inputs:
-      keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: '$(TUTOR_ROOT)/data/mysql, $(TUTOR_ROOT)/data/mongodb, $(TUTOR_ROOT)/config.yml'
-      vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
-
   - script: |
       tutor config save --silent \
         --set ACTIVATE_NOTES=false \
@@ -87,10 +81,12 @@ steps:
 
   - script: |
       tutor local databases
+      docker ps
+      docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml ps
+      tutor local logs
       docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml --project-name tutor_local start mysql
       tutor local databases
     displayName: 'Initialize databases'
-    condition: ne(variables['CacheRestored'], 'true')
 
   - script: |
       docker-compose -f $(tutor config printroot)/env/local/docker-compose.yml \
@@ -103,13 +99,6 @@ steps:
       tutor local stop
       sudo chown $(id -u) '$(TUTOR_ROOT)/data/mysql' '$(TUTOR_ROOT)/data/mongodb' -R
     displayName: 'Create initial users to be used in tests'
-    condition: ne(variables['CacheRestored'], 'true')
-
-  - task: 1ESLighthouseEng.PipelineArtifactCaching.SaveCacheV1.SaveCache@1
-    inputs:
-      keyfile: 'tutor/templates/build/openedx-alpine/azure-db-cache'
-      targetfolder: '$(TUTOR_ROOT)/data/mysql, $(TUTOR_ROOT)/data/mongodb, $(TUTOR_ROOT)/config.yml'
-      vstsFeed: '8b1737d6-762a-438d-acf4-e55593dc7819'
     condition: ne(variables['CacheRestored'], 'true')
 
   - script: tutor local start -d
