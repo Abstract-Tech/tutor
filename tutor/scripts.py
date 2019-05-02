@@ -4,11 +4,11 @@ from . import config as tutor_config
 from . import env
 from . import fmt
 
-def migrate(root, run_func, exec_func):
+def migrate(root, run_func):
     config = tutor_config.load(root)
 
     click.echo(fmt.info("Creating all databases..."))
-    run_template(root, config, "mysql", "create_databases.sh", exec_func)
+    run_template(root, config, "mysql", "create_databases.sh", run_func)
 
     if config["ACTIVATE_LMS"]:
         click.echo(fmt.info("Running lms migrations..."))
