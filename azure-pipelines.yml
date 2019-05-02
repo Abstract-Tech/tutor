@@ -16,6 +16,7 @@ steps:
       architecture: 'x64'
 
   - script: |
+      docker-compose --version
       nohup /usr/bin/time -o cypress_time.log -p \
         docker build tests/e2e -t cypress > cypress.log 2> cypress.err \
       & echo $! > cypress.pid
